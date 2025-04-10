@@ -19,8 +19,6 @@
     Requirements   : PowerShell 5.1 or higher
     Dependencies   : System.Windows.Forms, System.Drawing
 
-.AUTHOR
-    ChatGPT (OpenAI)
 
 .VERSION
     1.2 - Updated layout to display input and output side by side.
