@@ -19,6 +19,11 @@
     Requirements   : PowerShell 5.1 or higher
     Dependencies   : System.Windows.Forms, System.Drawing
 
+.CHANGES
+    v1.0 - 2025-03-12 - Initial release
+    v1.1 - 2025-03-12 - Added CSV display functionality
+    v1.2 - 2025-03-13 - Updated layout to display input and output side by side
+    v1.3 - 2025-04-28 - Added AAD group integration functionality
 
 .VERSION
     1.2 - Updated layout to display input and output side by side.
