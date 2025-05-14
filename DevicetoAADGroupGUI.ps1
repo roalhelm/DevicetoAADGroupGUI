@@ -13,11 +13,11 @@
 .NOTES
     File Name      : CreateDeviceCSV.ps1
     Author         : Ronny Alhelm
-    Version        : 1.2
+    Version        : 1.5
     Creation Date  : 2025-03-12
-    Last Modified  : 2025-04-29
+    Last Modified  : 2025-05-14
     Requirements   : PowerShell 5.1 or higher
-    Dependencies   : System.Windows.Forms, System.Drawing
+    Dependencies   : System.Windows.Forms, System.Drawing, Microsoft.Graph
 
 .CHANGES
     v1.0 - 2025-03-12 - Initial release
@@ -25,9 +25,14 @@
     v1.2 - 2025-03-13 - Updated layout to display input and output side by side
     v1.3 - 2025-04-28 - Added AAD group integration functionality
     v1.4 - 2025-04-29 - Updated button layout and improved UI alignment
+    v1.5 - 2025-05-14 - Added automatic Microsoft.Graph module installation
+                      - Improved error handling for module dependencies
+                      - Updated module management system
 
 .VERSION
-    1.4 - Updated button layout and improved UI alignment.
+    1.5 - Added automatic Microsoft.Graph module installation.
+          Improved error handling for module dependencies.
+          Updated module management system.
 
 .EXAMPLE
     PS C:\> .\CreateDeviceCSV.ps1
@@ -37,6 +42,37 @@
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+
+# Check and install required modules
+function Install-RequiredModules {
+    $modules = @("Microsoft.Graph")
+    
+    foreach ($module in $modules) {
+        if (-not (Get-Module -ListAvailable -Name $module)) {
+            try {
+                Write-Host "Installing $module module..."
+                Install-Module -Name $module -Force -AllowClobber -Scope CurrentUser
+                Write-Host "$module module installed successfully."
+            }
+            catch {
+                [System.Windows.Forms.MessageBox]::Show("Failed to install $module module: $_`nPlease run PowerShell as Administrator and try again.", "Error")
+                exit
+            }
+        }
+    }
+    
+    # Import the modules
+    try {
+        Import-Module Microsoft.Graph -ErrorAction Stop
+    }
+    catch {
+        [System.Windows.Forms.MessageBox]::Show("Failed to import Microsoft.Graph module: $_", "Error")
+        exit
+    }
+}
+
+# Run the module check and installation
+Install-RequiredModules
 
 # Load external function script
 . "$PSScriptRoot\Add-DevicesToAADGroupFunction.ps1"
