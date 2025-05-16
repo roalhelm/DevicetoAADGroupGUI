@@ -15,19 +15,15 @@
     Author         : Ronny Alhelm
     Version        : 1.2
     Creation Date  : 2025-03-12
-    Last Modified  : 2025-04-29
+    Last Modified  : 2025-03-13
     Requirements   : PowerShell 5.1 or higher
     Dependencies   : System.Windows.Forms, System.Drawing
 
-.CHANGES
-    v1.0 - 2025-03-12 - Initial release
-    v1.1 - 2025-03-12 - Added CSV display functionality
-    v1.2 - 2025-03-13 - Updated layout to display input and output side by side
-    v1.3 - 2025-04-28 - Added AAD group integration functionality
-    v1.4 - 2025-04-29 - Updated button layout and improved UI alignment
+.AUTHOR
+    ChatGPT (OpenAI)
 
 .VERSION
-    1.4 - Updated button layout and improved UI alignment.
+    1.2 - Updated layout to display input and output side by side.
 
 .EXAMPLE
     PS C:\> .\CreateDeviceCSV.ps1
@@ -59,7 +55,7 @@ $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
 
 # Label for input box
 $inputLabel = New-Object System.Windows.Forms.Label
-$inputLabel.Text = "1. Enter Device Names (comma, semicolon, or space-separated):"
+$inputLabel.Text = "Enter Device Names (comma, semicolon, or space-separated):"
 $inputLabel.AutoSize = $true
 $inputLabel.Location = New-Object System.Drawing.Point(20, 10)
 
@@ -85,50 +81,46 @@ $outputBox.Location = New-Object System.Drawing.Point(350, 30)
 $outputBox.ReadOnly = $true
 $outputBox.ScrollBars = "Vertical"
 
-# Calculate center positions for buttons
-$totalButtonWidth = 260  # 120 + 20 + 120 (two buttons plus spacing)
-$startX = ($form.ClientSize.Width - $totalButtonWidth) / 2
-
-# Button to create the CSV (centered)
-$button = New-Object System.Windows.Forms.Button
-$button.Text = "2. Create CSV"
-$button.Width = 120
-$button.Height = 30
-$button.Location = New-Object System.Drawing.Point($startX, 190)
-
-# Button to cleanup the CSV file (centered)
-$cleanupButton = New-Object System.Windows.Forms.Button
-$cleanupButton.Text = "5. Cleanup CSV"
-$cleanupButton.Width = 120
-$cleanupButton.Height = 30
-$cleanupButton.Location = New-Object System.Drawing.Point(($startX + 140), 190)
-
-# Label for group name input (moved down)
+# Label for group name input
 $groupLabel = New-Object System.Windows.Forms.Label
-$groupLabel.Text = "3. Azure AD Group Name:"
+$groupLabel.Text = "Azure AD Group Name:"
 $groupLabel.AutoSize = $true
-$groupLabel.Location = New-Object System.Drawing.Point(20, 230)
+$groupLabel.Location = New-Object System.Drawing.Point(20, 190)
 
-# TextBox for group name input (moved down)
+# TextBox for group name input
 $groupTextBox = New-Object System.Windows.Forms.TextBox
 $groupTextBox.Width = 200
 $groupTextBox.Height = 20
-$groupTextBox.Location = New-Object System.Drawing.Point(20, 250)
+$groupTextBox.Location = New-Object System.Drawing.Point(20, 210)
 
-# Add to Group button (moved down)
-$addToGroupButton = New-Object System.Windows.Forms.Button
-$addToGroupButton.Text = "4. Add to AAD Group"
-$addToGroupButton.Width = 120
-$addToGroupButton.Height = 30
-$addToGroupButton.Location = New-Object System.Drawing.Point(230, 245)
+# Button to create the CSV (centered below text boxes)
+$button = New-Object System.Windows.Forms.Button
+$button.Text = "Create CSV"
+$button.Width = 120
+$button.Height = 30
+$button.Location = New-Object System.Drawing.Point(150, 250)
 
-# Button to close the window (moved down)
+# Button to close the window (centered below text boxes)
 $closeButton = New-Object System.Windows.Forms.Button
 $closeButton.Text = "Close"
 $closeButton.Width = 120
 $closeButton.Height = 30
-$closeButton.Location = New-Object System.Drawing.Point(400, 290)
+$closeButton.Location = New-Object System.Drawing.Point(400, 250)
 $closeButton.Add_Click({ $form.Close() })
+
+# Button to cleanup the CSV file
+$cleanupButton = New-Object System.Windows.Forms.Button
+$cleanupButton.Text = "Cleanup CSV"
+$cleanupButton.Width = 120
+$cleanupButton.Height = 30
+$cleanupButton.Location = New-Object System.Drawing.Point(275, 250)
+
+# Add to Group button
+$addToGroupButton = New-Object System.Windows.Forms.Button
+$addToGroupButton.Text = "Add to AAD Group"
+$addToGroupButton.Width = 120
+$addToGroupButton.Height = 30
+$addToGroupButton.Location = New-Object System.Drawing.Point(230, 205)
 
 # Event handler for the button
 $button.Add_Click({
